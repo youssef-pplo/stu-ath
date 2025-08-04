@@ -32,8 +32,8 @@ def get_db():
 
 # External OTP PHP endpoints
 OTP_SEND_URL = "https://easybio-drabdelrahman.com/otp-system/send_otp.php"
-OTP_VERIFY_URL = "https://easybio-drabdelrahman.com/otp-system/verify_otp.php"
-OTP_STATUS_URL = "https://easybio-drabdelrahman.com/otp-system/check_verification.php"
+OTP_VERIFY_URL = "https://easybio-drabdelrahman.com/otp-system/verify-otp.php"
+OTP_STATUS_URL = "https://easybio-drabdelrahman.com/otp-system/status.php"
 
 @app.post("/register")
 def register(data: RegisterRequest, db: Session = Depends(get_db)):
