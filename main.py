@@ -7,11 +7,14 @@ from models import Student
 from schemas import RegisterRequest, LoginRequest, TokenResponse
 from utils import create_access_token, create_refresh_token, verify_password
 import requests
+from pydantic import BaseModel
 
+# Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,6 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Database session dependency
 def get_db():
     db = SessionLocal()
     try:
@@ -26,9 +30,10 @@ def get_db():
     finally:
         db.close()
 
+# External OTP PHP endpoints
 OTP_SEND_URL = "https://easybio-drabdelrahman.com/otp-system/send_otp.php"
-OTP_VERIFY_URL = "https://easybio-drabdelrahman.com/otp-system/verify-otp.php"
-OTP_STATUS_URL = "https://easybio-drabdelrahman.com/otp-system/status.php"
+OTP_VERIFY_URL = "https://easybio-drabdelrahman.com/otp-system/verify_otp.php"
+OTP_STATUS_URL = "https://easybio-drabdelrahman.com/otp-system/check_verification.php"
 
 @app.post("/register")
 def register(data: RegisterRequest, db: Session = Depends(get_db)):
@@ -44,17 +49,18 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(student)
 
+    # Send OTP to email
     try:
-        requests.post(OTP_SEND_URL, data={"email": data.email}, timeout=5)
-    except requests.RequestException:
-        pass  # Don't block registration on email failure
+        requests.post(OTP_SEND_URL, data={"email": data.email})
+    except Exception as e:
+        print("Failed to send OTP:", e)
 
     return {"message": "Registered successfully. Please verify your email."}
 
 @app.post("/login", response_model=TokenResponse)
 def login(data: LoginRequest, db: Session = Depends(get_db)):
     student = db.query(Student).filter(
-        (Student.phone == data.identifier) | 
+        (Student.phone == data.identifier) |
         (Student.email == data.identifier) |
         (Student.student_code == data.identifier)
     ).first()
@@ -64,25 +70,24 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
 
     # Check if email is verified
     try:
-        res = requests.post(OTP_STATUS_URL, data={"email": student.email}, timeout=5)
-        try:
-            otp_status = res.json()
-        except ValueError:
-            raise HTTPException(status_code=500, detail="OTP service returned invalid response")
-
-        if not otp_status.get("verified"):
+        res = requests.post(OTP_STATUS_URL, data={"email": student.email})
+        if res.status_code != 200 or res.json().get("verified") != True:
             raise HTTPException(status_code=403, detail="Email not verified")
-    except requests.RequestException:
-        raise HTTPException(status_code=500, detail="Failed to contact OTP service")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to verify email")
 
     return {
         "access_token": create_access_token(student.id),
         "refresh_token": create_refresh_token(student.id)
     }
 
+# Schema for refresh token request
+class RefreshRequest(BaseModel):
+    refresh_token: str
+
 @app.post("/refresh", response_model=TokenResponse)
-def refresh_token(refresh_token: str):
-    # Dummy logic for refresh (in real case, validate JWT)
+def refresh_token(data: RefreshRequest):
+    # In production, validate refresh token properly
     return {
         "access_token": create_access_token(1),
         "refresh_token": create_refresh_token(1)
