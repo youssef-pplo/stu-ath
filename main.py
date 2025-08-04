@@ -12,6 +12,7 @@ from pydantic import BaseModel
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
+
 app = FastAPI()
 
 # Enable CORS
