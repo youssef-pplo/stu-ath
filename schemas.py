@@ -1,8 +1,9 @@
 from pydantic import BaseModel
 
-class RegisterSchema(BaseModel):
+class RegisterRequest(BaseModel):
     name: str
     phone: str
+    email: str
     parent_phone: str
     city: str
     grade: str
@@ -10,6 +11,10 @@ class RegisterSchema(BaseModel):
     password: str
     confirm_password: str
 
-class LoginSchema(BaseModel):
+class LoginRequest(BaseModel):
     identifier: str
     password: str
+
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
