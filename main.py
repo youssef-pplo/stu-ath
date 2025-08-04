@@ -10,7 +10,7 @@ import requests
 
 app = FastAPI()
 
-origins = ["*"]  # Allow all origins for dev; restrict in prod
+origins = ["http://localhost:5173", "https://easybio2025.netlify.app"]  
 
 app.add_middleware(
     CORSMiddleware,
