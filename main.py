@@ -27,8 +27,8 @@ def get_db():
         db.close()
 
 OTP_SEND_URL = "https://easybio-drabdelrahman.com/otp-system/send_otp.php"
-OTP_VERIFY_URL = "https://easybio-drabdelrahman.com/otp-system/verify_otp.php"
-OTP_STATUS_URL = "https://easybio-drabdelrahman.com/otp-system/check_verification.php"
+OTP_VERIFY_URL = "https://easybio-drabdelrahman.com/otp-system/verify-otp.php"
+OTP_STATUS_URL = "https://easybio-drabdelrahman.com/otp-system/status.php"
 
 @app.post("/register")
 def register(data: RegisterRequest, db: Session = Depends(get_db)):
@@ -44,7 +44,11 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(student)
 
-    requests.post(OTP_SEND_URL, data={"email": data.email})
+    try:
+        requests.post(OTP_SEND_URL, data={"email": data.email}, timeout=5)
+    except requests.RequestException:
+        pass  # Don't block registration on email failure
+
     return {"message": "Registered successfully. Please verify your email."}
 
 @app.post("/login", response_model=TokenResponse)
@@ -59,9 +63,17 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     # Check if email is verified
-    res = requests.post(OTP_STATUS_URL, data={"email": student.email})
-    if res.json().get("verified") != True:
-        raise HTTPException(status_code=403, detail="Email not verified")
+    try:
+        res = requests.post(OTP_STATUS_URL, data={"email": student.email}, timeout=5)
+        try:
+            otp_status = res.json()
+        except ValueError:
+            raise HTTPException(status_code=500, detail="OTP service returned invalid response")
+
+        if not otp_status.get("verified"):
+            raise HTTPException(status_code=403, detail="Email not verified")
+    except requests.RequestException:
+        raise HTTPException(status_code=500, detail="Failed to contact OTP service")
 
     return {
         "access_token": create_access_token(student.id),
