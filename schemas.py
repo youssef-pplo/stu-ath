@@ -1,10 +1,11 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class RegisterRequest(BaseModel):
     name: str
     phone: str
     email: str
-    parent_phone: str
+    parent_number: Optional[str] = None  # changed and made optional
     city: str
     grade: str
     lang: str
@@ -20,13 +21,13 @@ class TokenResponse(BaseModel):
     refresh_token: str
 
 class StudentProfileResponse(BaseModel):
-    student_code: str
+    student_code: Optional[str] = None
     name: str
     phone_number: str
     email: str
-    username: str
-    parent_number: str
+    username: Optional[str] = None
+    parent_number: Optional[str] = None
     city: str
     lang: str
     grade: str
-    password: str 
+    password: str
