@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
 from database import SessionLocal, engine, Base
 from models import Student
-from schemas import RegisterRequest, LoginRequest, TokenResponse , StudentEditRequest
+from schemas import RegisterRequest, LoginRequest, TokenResponse , StudentEditRequest , StudentProfileResponse
 
 from utils import create_access_token, create_refresh_token, verify_password
 from pydantic import BaseModel
