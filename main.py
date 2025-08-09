@@ -251,13 +251,52 @@ def get_student_profile(current_student: Student = Depends(get_current_student))
         name=getattr(current_student, "name", None),
         phone=getattr(current_student, "phone", None),
         email=getattr(current_student, "email", None),
-        username=getattr(current_student, "username", None),
+        username=getattr(current_student, "student_code", None),
         parent_phone=getattr(current_student, "parent_phone", None),
         city=getattr(current_student, "city", None),
         lang=getattr(current_student, "lang", None),
         grade=getattr(current_student, "grade", None) or getattr(current_student, "year_of_study", None),
         password="****"
     )
+
+
+
+#--
+# edit 
+#--
+from fastapi import Body
+
+@app.put("/student/profile", response_model=StudentProfileResponse)
+def update_student_profile(
+    updated_data: StudentProfileResponse = Body(...),
+    current_student: Student = Depends(get_current_student),
+    db: Session = Depends(get_db),
+):
+    student = db.query(Student).filter(Student.id == current_student.id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    # Update allowed fields if present in updated_data
+    for field, value in updated_data.dict(exclude={"password"}).items():
+        if value is not None:
+            setattr(student, field, value)
+
+    db.commit()
+    db.refresh(student)
+
+    return StudentProfileResponse(
+        student_code=student.student_code,
+        name=student.name,
+        phone=student.phone,
+        email=student.email,
+        username=student.username,
+        parent_number=student.parent_number,
+        city=student.city,
+        lang=student.lang,
+        grade=student.grade,
+        password="****"
+    )
+
 
 # -------------------------
 # Health / debug route
