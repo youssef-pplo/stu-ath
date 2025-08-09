@@ -17,8 +17,8 @@ def create_refresh_token(user_id: int):
     payload = {"sub": str(user_id), "exp": datetime.utcnow() + timedelta(days=7)}
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
-def verify_password(plain_password, hashed_password):
-    return bcrypt.verify(plain_password, hashed_password)
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
 
 
 
