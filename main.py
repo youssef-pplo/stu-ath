@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, status, Request
+from fastapi import FastAPI, HTTPException, Depends, status, Request ,Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -264,7 +264,6 @@ def get_student_profile(current_student: Student = Depends(get_current_student))
 #--
 # edit 
 #--
-from fastapi import Body
  
 @app.put("/student/profile", response_model=StudentProfileResponse)
 def update_student_profile(
