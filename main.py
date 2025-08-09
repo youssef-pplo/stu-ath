@@ -118,7 +118,7 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
             "phone": student.phone,
             "email": student.email,
             "lang": student.lang,
-            "parent_number": student.parent_number,
+            "parent_phone": student.parent_phone,
         }
     }
 
@@ -234,7 +234,7 @@ class StudentProfileResponse(BaseModel):
     phone: Optional[str]
     email: Optional[str]
     username: Optional[str]
-    parent_number: Optional[str]
+    parent_phone: Optional[str]
     city: Optional[str]
     lang: Optional[str]
     grade: Optional[str]
@@ -252,7 +252,7 @@ def get_student_profile(current_student: Student = Depends(get_current_student))
         phone=getattr(current_student, "phone", None),
         email=getattr(current_student, "email", None),
         username=getattr(current_student, "username", None),
-        parent_number=getattr(current_student, "parent_number", None),
+        parent_phone=getattr(current_student, "parent_phone", None),
         city=getattr(current_student, "city", None),
         lang=getattr(current_student, "lang", None),
         grade=getattr(current_student, "grade", None) or getattr(current_student, "year_of_study", None),
