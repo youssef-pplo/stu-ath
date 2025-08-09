@@ -5,7 +5,7 @@ class RegisterRequest(BaseModel):
     name: str
     phone: str
     email: str
-    parent_number: str   
+    parent_phone: str   
     city: str
     grade: str
     lang: str
@@ -26,7 +26,7 @@ class StudentProfileResponse(BaseModel):
     phone_number: str
     email: str
     username: Optional[str] = None
-    parent_number: Optional[str] = None
+    parent_phone: Optional[str] = None
     city: str
     lang: str
     grade: str
