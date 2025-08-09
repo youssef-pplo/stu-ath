@@ -9,6 +9,7 @@ from schemas import RegisterRequest, LoginRequest, TokenResponse
 from utils import create_access_token, create_refresh_token, verify_password
 import requests
 from pydantic import BaseModel
+from jose import jwt
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
