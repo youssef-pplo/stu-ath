@@ -18,3 +18,15 @@ class LoginRequest(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
+
+class StudentProfileResponse(BaseModel):
+    student_code: str
+    name: str
+    phone_number: str
+    email: str
+    username: str
+    parent_number: str
+    city: str
+    lang: str
+    grade: str
+    password: str 
