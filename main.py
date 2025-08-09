@@ -141,7 +141,7 @@ class StudentProfileResponse(BaseModel):
 
 @app.get("/student/profile")
 def get_student_profile(
-    current_user: Student = Depends(get_current_student),  # <-- fixed here
+    current_user: Student = Depends(get_current_student),
     db: Session = Depends(get_db)
 ):
     student = db.query(Student).filter(Student.id == current_user.id).first()
@@ -151,10 +151,10 @@ def get_student_profile(
     return {
         "student_code": student.student_code,
         "name": student.name,
-        "phone_number": student.phone_number,
+        "phone_number": student.phone,   # changed from phone_number
         "email": student.email,
         "username": student.username,
-        "parent_number": student.parent_number,
+        "parent_number": student.parent_number if hasattr(student, "parent_number") else None,
         "city": student.city,
         "lang": student.lang,
         "year_of_study": student.year_of_study,
