@@ -10,12 +10,12 @@ from utils import create_access_token, create_refresh_token, verify_password
 import requests
 from pydantic import BaseModel
 from jose import JWTError, jwt
+from typing import Optional
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
 
 SECRET_KEY = "Ea$yB1o"
 ALGORITHM = "HS256"
@@ -23,7 +23,7 @@ ALGORITHM = "HS256"
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*", "http://localhost:5173"],
+    allow_origins=["*", "http://localhost:5173"],  # unchanged
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -77,9 +77,9 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
     # Check if email is verified
     try:
         res = requests.post(OTP_STATUS_URL, data={"email": student.email})
-        if res.status_code != 200 or res.json().get("verified") != True:
+        if res.status_code != 200 or res.json().get("verified") is not True:
             raise HTTPException(status_code=403, detail="Email not verified")
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=500, detail="Failed to verify email")
 
     return {
@@ -109,13 +109,14 @@ def get_current_student(
 ):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        student_id: str = payload.get("sub")
+        student_id = payload.get("sub")
         if student_id is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token"
             )
-    except JWTError:
+        student_id = int(student_id)
+    except (JWTError, ValueError):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token verification failed"
@@ -128,36 +129,30 @@ def get_current_student(
 
 # Schema for profile response
 class StudentProfileResponse(BaseModel):
-    student_code: str
-    name: str
-    phone_number: str
-    email: str
-    username: str
-    parent_number: str
-    city: str
-    lang: str
-    grade: str
+    student_code: Optional[str]
+    name: Optional[str]
+    phone_number: Optional[str]
+    email: Optional[str]
+    username: Optional[str]
+    parent_number: Optional[str]
+    city: Optional[str]
+    lang: Optional[str]
+    year_of_study: Optional[str]
     password: str
 
-@app.get("/student/profile")
+@app.get("/student/profile", response_model=StudentProfileResponse)
 def get_student_profile(
-    current_user: Student = Depends(get_current_student),
-    db: Session = Depends(get_db)
+    current_user: Student = Depends(get_current_student)
 ):
-    student = db.query(Student).filter(Student.id == current_user.id).first()
-    if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
-
-    return {
-        "student_code": student.student_code,
-        "name": student.name,
-        "phone_number": student.phone,   # changed from phone_number
-        "email": student.email,
-        "username": student.username,
-        "parent_number": student.parent_number if hasattr(student, "parent_number") else None,
-        "city": student.city,
-        "lang": student.lang,
-        "year_of_study": student.year_of_study,
-        "password": "****"
-    }
-
+    return StudentProfileResponse(
+        student_code=current_user.student_code,
+        name=current_user.name,
+        phone_number=getattr(current_user, "phone", None),
+        email=current_user.email,
+        username=current_user.username,
+        parent_number=getattr(current_user, "parent_number", None),
+        city=getattr(current_user, "city", None),
+        lang=getattr(current_user, "lang", None),
+        year_of_study=getattr(current_user, "year_of_study", None),
+        password="****"
+    )
