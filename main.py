@@ -266,33 +266,33 @@ def get_student_profile(current_student: Student = Depends(get_current_student))
 #--
  
 @app.put("/student/profile/edit", response_model=StudentProfileResponse)
-def update_student_profile(
-    updated_data: StudentProfileResponse = Body(...),
+def edit_student_profile(
+    data: StudentEditRequest,
     current_student: Student = Depends(get_current_student),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_db)
 ):
-    student = db.query(Student).filter(Student.id == current_student.id).first()
-    if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
+    updated = False
 
-    # Update allowed fields if present in updated_data
-    for field, value in updated_data.dict(exclude={"password"}).items():
+    for field, value in data.dict(exclude_unset=True).items():
         if value is not None:
-            setattr(student, field, value)
+            setattr(current_student, field, value)
+            updated = True
 
-    db.commit()
-    db.refresh(student)
+    if updated:
+        db.add(current_student)
+        db.commit()
+        db.refresh(current_student)
 
     return StudentProfileResponse(
-        student_code=student.student_code,
-        name=student.name,
-        phone=student.phone,
-        email=student.email,
-        username=student.username,
-        parent_number=student.parent_number,
-        city=student.city,
-        lang=student.lang,
-        grade=student.grade,
+        student_code=current_student.student_code,
+        name=current_student.name,
+        phone=current_student.phone,
+        email=current_student.email,
+        username=current_student.username,
+        parent_number=current_student.parent_phone,
+        city=current_student.city,
+        lang=current_student.lang,
+        grade=current_student.grade,
         password="****"
     )
 
