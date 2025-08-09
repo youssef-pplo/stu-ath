@@ -67,47 +67,48 @@ def decode_token_or_none(token: str):
 # -------------------------
 @app.post("/register")
 def register(data: RegisterRequest, db: Session = Depends(get_db)):
-    # check uniqueness
-    existing = db.query(Student).filter((Student.phone == data.phone) | (Student.email == data.email)).first()
-    if existing:
+    if db.query(Student).filter((Student.phone == data.phone) | (Student.email == data.email)).first():
         raise HTTPException(status_code=400, detail="Phone or Email already exists")
-
+    
     if data.password != data.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
 
-    # hash password
     hashed_password = bcrypt.hash(data.password)
 
-    # create student
-    student = Student(**data.dict(exclude={"password", "confirm_password"}), password=hashed_password)
+    # Generate student_code
+    new_student_code = generate_student_code()
+
+    student = Student(
+        **data.dict(exclude={"password", "confirm_password"}),
+        password=hashed_password,
+        student_code=new_student_code,
+        parent_number=data.parent_number  # store parent number if provided, else None
+    )
     db.add(student)
     db.commit()
     db.refresh(student)
 
-    # send OTP (don't block registration on email failure)
+    # Send OTP to email
     try:
-        requests.post(OTP_SEND_URL, data={"email": data.email}, timeout=5)
+        requests.post(OTP_SEND_URL, data={"email": data.email})
     except Exception as e:
-        # log but don't fail registration
-        print("OTP send failed:", e)
-
-    # Issue tokens (make sure create_access_token uses same SECRET_KEY/ALGORITHM)
-    access_token = create_access_token(student.id)
-    refresh_token = create_refresh_token(student.id)
+        print("Failed to send OTP:", e)
 
     return {
         "message": "Registered successfully. Please verify your email.",
-        "access_token": access_token,
-        "refresh_token": refresh_token,
+        "access_token": create_access_token(student.id),
+        "refresh_token": create_refresh_token(student.id),
         "student": {
             "id": student.id,
-            "student_code": getattr(student, "student_code", None),
+            "student_code": student.student_code,
             "name": student.name,
             "phone": student.phone,
             "email": student.email,
-            "lang": getattr(student, "lang", None)
+            "lang": student.lang,
+            "parent_number": student.parent_number,
         }
     }
+
 
 # -------------------------
 # Login endpoint
