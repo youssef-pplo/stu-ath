@@ -2,9 +2,10 @@ from passlib.hash import bcrypt
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
 import random
+import string
 
 def generate_student_code():
-    return "STU" + str(random.randint(100000, 999999))
+    return "STU" + ''.join(random.choices(string.digits, k=6))
 
 SECRET_KEY = "Ea$yB1o"  
 ALGORITHM = "HS256"
