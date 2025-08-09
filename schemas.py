@@ -32,14 +32,15 @@ class StudentProfileResponse(BaseModel):
     grade: str
     password: str
 
+
 class StudentEditRequest(BaseModel):
-    student_code: Optional[str]
-    name: Optional[str]
-    email: Optional[str]
-    phone: Optional[str]
-    username: Optional[str]
-    parent_phone: Optional[str]
-    city: Optional[str]
-    lang: Optional[str]
-    grade: Optional[str]
-    password: Optional[str]
+    student_code: Optional[str] = None
+    name: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    username: Optional[str] = None
+    parent_phone: Optional[str] = None
+    city: Optional[str] = None
+    lang: Optional[str] = None
+    grade: Optional[str] = None
+    password: Optional[str] = None
