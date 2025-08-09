@@ -1,4 +1,6 @@
 from passlib.hash import bcrypt
+from passlib.context import CryptContext
+
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
 import random
@@ -17,9 +19,15 @@ def create_refresh_token(user_id: int):
     payload = {"sub": str(user_id), "exp": datetime.utcnow() + timedelta(days=7)}
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
+
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
+def get_password_hash(password):
+    return pwd_context.hash(password)
 
 
 
