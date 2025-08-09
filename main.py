@@ -140,11 +140,14 @@ class StudentProfileResponse(BaseModel):
     password: str
 
 @app.get("/student/profile")
-def get_student_profile(current_user: Student = Depends(get_current_user), db: Session = Depends(get_db)):
+def get_student_profile(
+    current_user: Student = Depends(get_current_student),  # <-- fixed here
+    db: Session = Depends(get_db)
+):
     student = db.query(Student).filter(Student.id == current_user.id).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
-    
+
     return {
         "student_code": student.student_code,
         "name": student.name,
@@ -157,3 +160,4 @@ def get_student_profile(current_user: Student = Depends(get_current_user), db: S
         "year_of_study": student.year_of_study,
         "password": "****"
     }
+
