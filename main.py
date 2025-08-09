@@ -266,37 +266,37 @@ def get_student_profile(current_student: Student = Depends(get_current_student))
 # edit 
 #--
  
-@app.put("/student/profile/edit", response_model=StudentProfileResponse)
-def edit_student_profile(
+
+@app.put("/student/profile/edit")
+def edit_profile(
     data: StudentEditRequest,
     current_student: Student = Depends(get_current_student),
     db: Session = Depends(get_db)
 ):
-    updated = False
+    update_data = data.dict(exclude_unset=True)  # فقط الحقول المرسلة
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No data provided to update")
 
-    for field, value in data.dict(exclude_unset=True).items():
-        if value is not None:
-            setattr(current_student, field, value)
-            updated = True
+    for key, value in update_data.items():
+        setattr(current_student, key, value)
 
-    if updated:
-        db.add(current_student)
-        db.commit()
-        db.refresh(current_student)
+    db.commit()
+    db.refresh(current_student)
 
-    return StudentProfileResponse(
-        student_code=current_student.student_code,
-        name=current_student.name,
-        phone=current_student.phone,
-        email=current_student.email,
-        username=current_student.username,
-        parent_number=current_student.parent_phone,
-        city=current_student.city,
-        lang=current_student.lang,
-        grade=current_student.grade,
-        password="****"
-    )
-
+    return {
+        "message": "Profile updated successfully",
+        "student": {
+            "student_code": current_student.student_code,
+            "name": current_student.name,
+            "email": current_student.email,
+            "phone": current_student.phone,
+            "username": current_student.username,
+            "parent_phone": current_student.parent_phone,
+            "city": current_student.city,
+            "lang": current_student.lang,
+            "grade": current_student.grade,
+        }
+    }
 
 # -------------------------
 # Health / debug route
