@@ -89,17 +89,14 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
     if data.password != data.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
 
-    hashed_password = pwd_context.hash(data.password)
-
-
-    # Generate student_code
+    hashed_password = bcrypt.hash(data.password)
     new_student_code = generate_student_code()
 
     student = Student(
         **data.dict(exclude={"password", "confirm_password"}),
         password=hashed_password,
         student_code=new_student_code,
-        parent_number=data.parent_number  # store parent number if provided, else None
+        parent_number=data.parent_phone  # if your schema uses parent_phone
     )
     db.add(student)
     db.commit()
@@ -125,6 +122,7 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
             "parent_number": student.parent_number,
         }
     }
+
 
 
 # -------------------------
