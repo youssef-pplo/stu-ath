@@ -273,7 +273,7 @@ def edit_profile(
     current_student: Student = Depends(get_current_student),
     db: Session = Depends(get_db)
 ):
-    update_data = data.dict(exclude_unset=True)  # فقط الحقول المرسلة
+    update_data = data.dict(exclude_unset=True)
     if not update_data:
         raise HTTPException(status_code=400, detail="No data provided to update")
 
@@ -297,7 +297,6 @@ def edit_profile(
             "grade": current_student.grade,
         }
     }
-
 # -------------------------
 # Health / debug route
 # -------------------------
