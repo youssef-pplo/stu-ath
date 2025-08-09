@@ -16,6 +16,10 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+
+SECRET_KEY = "your-secret-key"
+ALGORITHM = "HS256"
+
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
