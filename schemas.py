@@ -5,7 +5,7 @@ class RegisterRequest(BaseModel):
     name: str
     phone: str
     email: str
-    parent_number: Optional[str] = None  # changed and made optional
+    parent_number: str   # rename from parent_phone
     city: str
     grade: str
     lang: str
