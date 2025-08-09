@@ -103,20 +103,29 @@ def refresh_token(data: RefreshRequest):
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Dependency: get current student
-def get_current_student(token: str = Depends(oauth2_scheme)):
+def get_current_student(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db)
+):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         student_id: str = payload.get("sub")
         if student_id is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-        return student_id
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid token"
+            )
     except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token verification failed")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token verification failed"
+        )
 
     student = db.query(Student).filter(Student.id == student_id).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     return student
+
 # Schema for profile response
 class StudentProfileResponse(BaseModel):
     student_code: str
@@ -130,17 +139,18 @@ class StudentProfileResponse(BaseModel):
     grade: str
     password: str
 
-@app.get("/profile")
+@app.get("/profile", response_model=StudentProfileResponse)
 def get_profile(current_student: Student = Depends(get_current_student)):
     return {
-        "student_code": current_student.stu_code,
+        "student_code": current_student.student_code,
         "name": current_student.name,
-        "phone_number": current_student.phone_number,
+        "phone_number": current_student.phone,
         "email": current_student.email,
         "username": current_student.username,
         "parent_number": current_student.parent_number,
         "city": current_student.city,
         "lang": current_student.lang,
-        "year_of_study": current_student.year_of_study,
+        "grade": current_student.year_of_study,
         "password": "****"
     }
+
