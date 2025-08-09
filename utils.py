@@ -6,7 +6,7 @@ import random
 def generate_student_code():
     return "STU" + str(random.randint(100000, 999999))
 
-SECRET_KEY = "your_secret_key_here"  
+SECRET_KEY = "Ea$yB1o"  
 ALGORITHM = "HS256"
 def create_access_token(user_id: int):
     payload = {"sub": str(user_id), "exp": datetime.utcnow() + timedelta(minutes=15)}
