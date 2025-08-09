@@ -35,7 +35,53 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Register",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ahmed Ali\",\n  \"phone\": \"01211111111\",\n  \"email\": \"pplodev@gmail.com\",\n  \"parent_phone\": \"01122222222\",\n  \"city\": \"Cairo\",\n  \"grade\": \"10\",\n  \"lang\": \"arabic\",\n  \"password\": \"12345678\",\n  \"confirm_password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "https://student-auth-production.up.railway.app/register",
+							"protocol": "https",
+							"host": [
+								"student-auth-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"message\": \"Registered successfully. Please verify your email.\",\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzU0Nzc5NjUxfQ.qlwFDz82cjBcbPz9ZnSXgM_omwXNpdRPZOPyjYMLs6o\",\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzU1MzgzNTUxfQ.ha7uVVJWNmnCDK-W7V1fhqhgOKpJDsd0Omn11Za8yKQ\",\n    \"student\": {\n        \"id\": 3,\n        \"student_code\": \"J1LGLW6B\",\n        \"name\": \"Ahmed Ali\",\n        \"phone\": \"022111111111\",\n        \"email\": \"pplo@gmail.com\",\n        \"lang\": \"arabic\",\n        \"parent_phone\": \"01122222222\"\n    }\n}"
+				}
+			]
 		},
 		{
 			"name": "Send OTP",
@@ -69,7 +115,57 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Send OTP",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "pplodev@gmail.com"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://easybio-drabdelrahman.com/otp-system/send_otp.php",
+							"protocol": "https",
+							"host": [
+								"easybio-drabdelrahman",
+								"com"
+							],
+							"path": [
+								"otp-system",
+								"send_otp.php"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"status\": \"sent\",\n    \"email\": \"pplodev@gmail.com\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Verify OTP",
@@ -107,7 +203,61 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Verify OTP",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "pplodev@gmail.com"
+								},
+								{
+									"key": "otp",
+									"value": "000000"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://easybio-drabdelrahman.com/otp-system/verify-otp.php",
+							"protocol": "https",
+							"host": [
+								"easybio-drabdelrahman",
+								"com"
+							],
+							"path": [
+								"otp-system",
+								"verify-otp.php"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"status\": \"verified\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Check Verification",
@@ -141,7 +291,57 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Check Verification",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "pplodev1@gmail.com"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://easybio-drabdelrahman.com/otp-system/status.php",
+							"protocol": "https",
+							"host": [
+								"easybio-drabdelrahman",
+								"com"
+							],
+							"path": [
+								"otp-system",
+								"status.php"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"verified\": true\n}"
+				}
+			]
 		},
 		{
 			"name": "Login",
@@ -153,10 +353,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"identifier\": \"pplodev1@gmail.com\",\n  \"password\": \"12345678\"\n}"
-				},
 				"url": {
 					"raw": "https://student-auth-production.up.railway.app/login",
 					"protocol": "https",
@@ -171,7 +367,53 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"identifier\": \"pplodev1@gmail.com\",\n  \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "https://student-auth-production.up.railway.app/login",
+							"protocol": "https",
+							"host": [
+								"student-auth-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU0Nzc5ODA5fQ.GYpHhjw7ztu7mrAcwWbsLrr959MQRT56V5KlJAPoC88\",\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU1MzgzNzA5fQ.4sISukiAM-dj9Xed164msSSvub7C7lOq8QiCqBRGy2c\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Refresh Token",
@@ -180,17 +422,12 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded"
+						"value": "application/json"
 					}
 				],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "refresh_token",
-							"value": "XYZ"
-						}
-					]
+					"mode": "raw",
+					"raw": ""
 				},
 				"url": {
 					"raw": "https://student-auth-production.up.railway.app/refresh",
@@ -206,7 +443,46 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Refresh Token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU0NzgwMjI5fQ.Uc_sBuFcWgfd18MInXEj3gevCoA9nIhtMiRzY3gJRyo\"\n}"
+						},
+						"url": {
+							"raw": "https://student-auth-production.up.railway.app/token/refresh",
+							"protocol": "https",
+							"host": [
+								"student-auth-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"token",
+								"refresh"
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU0NzgwMjI5fQ.Uc_sBuFcWgfd18MInXEj3gevCoA9nIhtMiRzY3gJRyo\",\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU1Mzg0MTI5fQ.PdJ0UVYIIZaqEgwHEOy7rqRh6RDi8AyUDVl_WkeU2XY\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Profile Get",
@@ -234,7 +510,51 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Profile Get",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU0Nzc5ODA5fQ.GYpHhjw7ztu7mrAcwWbsLrr959MQRT56V5KlJAPoC88",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://student-auth-production.up.railway.app/student/profile",
+							"protocol": "https",
+							"host": [
+								"student-auth-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"student",
+								"profile"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"student_code\": \"IRLYSVQ3\",\n    \"name\": \"Ahmed Ali\",\n    \"phone\": \"01111111111\",\n    \"email\": \"pplodev1@gmail.com\",\n    \"username\": \"IRLYSVQ3\",\n    \"parent_phone\": \"01222222222\",\n    \"city\": \"Cairo\",\n    \"lang\": \"arabic\",\n    \"grade\": \"10\",\n    \"password\": \"****\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Profile Edit",
@@ -243,7 +563,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer ",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU0NzcxODY4fQ.K9KrXB7Nqzjy-_M0exZYnfC3czOgrxSqwL6-aRAkIy8",
 						"type": "text"
 					},
 					{
@@ -253,7 +573,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://student-auth-production.up.railway.app/student/profile/edit?phone=0123456789",
+					"raw": "https://student-auth-production.up.railway.app/student/profile/edit",
 					"protocol": "https",
 					"host": [
 						"student-auth-production",
@@ -265,16 +585,61 @@
 						"student",
 						"profile",
 						"edit"
-					],
-					"query": [
-						{
-							"key": "phone",
-							"value": "0123456789"
-						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Profile Edit",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU0Nzc5ODA5fQ.GYpHhjw7ztu7mrAcwWbsLrr959MQRT56V5KlJAPoC88",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"01000000000\",\n    \"city\": \"Alex\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://student-auth-production.up.railway.app/student/profile/edit",
+							"protocol": "https",
+							"host": [
+								"student-auth-production",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"student",
+								"profile",
+								"edit"
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"message\": \"Profile updated successfully\",\n    \"student\": {\n        \"student_code\": \"IRLYSVQ3\",\n        \"name\": \"Ahmed Ali\",\n        \"email\": \"pplodev1@gmail.com\",\n        \"phone\": \"01000000000\",\n        \"username\": null,\n        \"parent_phone\": \"01222222222\",\n        \"city\": \"Alex\",\n        \"lang\": \"arabic\",\n        \"grade\": \"10\"\n    }\n}"
+				}
+			]
 		}
 	]
 }
