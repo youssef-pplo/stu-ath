@@ -265,7 +265,7 @@ def get_student_profile(current_student: Student = Depends(get_current_student))
 # edit 
 #--
  
-@app.put("/student/profile", response_model=StudentProfileResponse)
+@app.put("/student/profile/edit", response_model=StudentProfileResponse)
 def update_student_profile(
     updated_data: StudentProfileResponse = Body(...),
     current_student: Student = Depends(get_current_student),
