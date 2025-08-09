@@ -99,14 +99,18 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 # Dependency: get current student
 def get_current_student(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-    payload = decode_access_token(token)
-    if payload is None:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
-    student = db.query(Student).filter(Student.id == payload.get("sub")).first()
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        student_id: str = payload.get("sub")
+        if student_id is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
+
+    student = db.query(Student).filter(Student.id == student_id).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     return student
-
 # Schema for profile response
 class StudentProfileResponse(BaseModel):
     student_code: str
@@ -120,17 +124,17 @@ class StudentProfileResponse(BaseModel):
     grade: str
     password: str
 
-@app.get("/profile", response_model=StudentProfileResponse)
+@app.get("/profile")
 def get_profile(current_student: Student = Depends(get_current_student)):
-    return StudentProfileResponse(
-        student_code=current_student.student_code,
-        name=current_student.name,
-        phone_number=current_student.phone,
-        email=current_student.email,
-        username=current_student.username,
-        parent_number=current_student.parent_number,
-        city=current_student.city,
-        lang=current_student.lang,
-        grade=current_student.grade,  # replaced year_of_study with grade
-        password="********"
-    )
+    return {
+        "student_code": current_student.stu_code,
+        "name": current_student.name,
+        "phone_number": current_student.phone_number,
+        "email": current_student.email,
+        "username": current_student.username,
+        "parent_number": current_student.parent_number,
+        "city": current_student.city,
+        "lang": current_student.lang,
+        "year_of_study": current_student.year_of_study,
+        "password": "****"
+    }
