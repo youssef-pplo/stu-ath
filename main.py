@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -9,7 +9,7 @@ from schemas import RegisterRequest, LoginRequest, TokenResponse
 from utils import create_access_token, create_refresh_token, verify_password
 import requests
 from pydantic import BaseModel
-from jose import jwt
+from jose import JWTError, jwt
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -100,17 +100,18 @@ def refresh_token(data: RefreshRequest):
     }
 
 # OAuth2 for JWT token extraction
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Dependency: get current student
-def get_current_student(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_current_student(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         student_id: str = payload.get("sub")
         if student_id is None:
-            raise HTTPException(status_code=401, detail="Invalid token")
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        return student_id
     except JWTError:
-        raise HTTPException(status_code=401, detail="Could not validate credentials")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token verification failed")
 
     student = db.query(Student).filter(Student.id == student_id).first()
     if not student:
