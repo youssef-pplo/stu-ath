@@ -6,7 +6,7 @@ from passlib.hash import bcrypt
 from database import SessionLocal, engine, Base
 from models import Student
 from schemas import RegisterRequest, LoginRequest, TokenResponse
-from utils import create_access_token, create_refresh_token, verify_password, decode_access_token
+from utils import create_access_token, create_refresh_token, verify_password
 import requests
 from pydantic import BaseModel
 
