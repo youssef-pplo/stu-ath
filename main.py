@@ -12,13 +12,16 @@ from jose import JWTError, jwt
 from typing import Optional
 import requests
 from passlib.context import CryptContext
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+import random
+import string
 # -------------------------
 # Configuration / Constants
 # -------------------------
 SECRET_KEY = "Ea$yB1o"    # <-- keep this value and make sure utils uses the same secret!
 ALGORITHM = "HS256"
+
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # External OTP PHP endpoints (used on register and login verification)
 OTP_SEND_URL = "https://easybio-drabdelrahman.com/otp-system/send_otp.php"
@@ -64,6 +67,17 @@ def decode_token_or_none(token: str):
     except JWTError:
         return None
 
+
+
+#--------------------------
+# gen stu code 
+# -------------------------
+
+
+def generate_student_code(length=8):
+    # generates a random alphanumeric code of given length
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+ 
 # -------------------------
 # Register endpoint
 # -------------------------
