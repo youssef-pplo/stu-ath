@@ -96,7 +96,6 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
         **data.dict(exclude={"password", "confirm_password"}),
         password=hashed_password,
         student_code=new_student_code,
-        parent_number=data.parent_phone  # if your schema uses parent_phone
     )
     db.add(student)
     db.commit()
