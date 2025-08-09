@@ -8,7 +8,7 @@ class Student(Base):
     name = Column(String)
     phone = Column(String, unique=True)
     email = Column(String, unique=True)
-    parent_number = Column(String)
+    parent_phone = Column(String)
     city = Column(String)
     grade = Column(String)
     lang = Column(String)
