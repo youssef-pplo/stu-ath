@@ -5,7 +5,7 @@ class RegisterRequest(BaseModel):
     name: str
     phone: str
     email: str
-    parent_number: str   # rename from parent_phone
+    parent_number: str   
     city: str
     grade: str
     lang: str
