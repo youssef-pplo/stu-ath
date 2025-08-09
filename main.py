@@ -11,7 +11,9 @@ from pydantic import BaseModel
 from jose import JWTError, jwt
 from typing import Optional
 import requests
+from passlib.context import CryptContext
 
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # -------------------------
 # Configuration / Constants
 # -------------------------
@@ -73,7 +75,8 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
     if data.password != data.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
 
-    hashed_password = bcrypt.hash(data.password)
+    hashed_password = pwd_context.hash(data.password)
+
 
     # Generate student_code
     new_student_code = generate_student_code()
