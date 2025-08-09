@@ -1,8 +1,8 @@
-fastapi==0.95.2
-uvicorn[standard]==0.22.0
-sqlalchemy==1.4.48
-passlib[bcrypt]==1.7.4
+fastapi
+uvicorn
+sqlalchemy
+passlib[bcrypt]
+python-jose
+requests
+pydantic
 bcrypt==4.0.1
-python-jose==3.3.0
-requests==2.31.0
-pydantic==1.10.12
