@@ -1,203 +1,280 @@
 {
-  "info": {
-    "name": "Student Auth API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Register",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Ahmed Ali\",\n  \"phone\": \"01111111111\",\n  \"email\": \"pplodev1@gmail.com\",\n  \"parent_phone\": \"01222222222\",\n  \"city\": \"Cairo\",\n  \"grade\": \"10\",\n  \"lang\": \"arabic\",\n  \"password\": \"12345678\",\n  \"confirm_password\": \"12345678\"\n}"
-        },
-        "url": {
-          "raw": "https://student-auth-production.up.railway.app/register",
-          "protocol": "https",
-          "host": [
-            "student-auth-production",
-            "up",
-            "railway",
-            "app"
-          ],
-          "path": [
-            "register"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Send OTP",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/x-www-form-urlencoded"
-          }
-        ],
-        "body": {
-          "mode": "urlencoded",
-          "urlencoded": [
-            {
-              "key": "email",
-              "value": "pplodev1@gmail.com"
-            }
-          ]
-        },
-        "url": {
-          "raw": "https://easybio-drabdelrahman.com/otp-system/send_otp.php",
-          "protocol": "https",
-          "host": [
-            "easybio-drabdelrahman",
-            "com"
-          ],
-          "path": [
-            "otp-system",
-            "send_otp.php"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Verify OTP",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/x-www-form-urlencoded"
-          }
-        ],
-        "body": {
-          "mode": "urlencoded",
-          "urlencoded": [
-            {
-              "key": "email",
-              "value": "pplodev1@gmail.com"
-            },
-            {
-              "key": "otp",
-              "value": "123456"
-            }
-          ]
-        },
-        "url": {
-          "raw": "https://easybio-drabdelrahman.com/otp-system/verify-otp.php",
-          "protocol": "https",
-          "host": [
-            "easybio-drabdelrahman",
-            "com"
-          ],
-          "path": [
-            "otp-system",
-            "verify-otp.php"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Check Verification",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/x-www-form-urlencoded"
-          }
-        ],
-        "body": {
-          "mode": "urlencoded",
-          "urlencoded": [
-            {
-              "key": "email",
-              "value": "pplodev1@gmail.com"
-            }
-          ]
-        },
-        "url": {
-          "raw": "https://easybio-drabdelrahman.com/otp-system/status.php",
-          "protocol": "https",
-          "host": [
-            "easybio-drabdelrahman",
-            "com"
-          ],
-          "path": [
-            "otp-system",
-            "status.php"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Login",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"identifier\": \"pplodev1@gmail.com\",\n  \"password\": \"12345678\"\n}"
-        },
-        "url": {
-          "raw": "https://student-auth-production.up.railway.app/login",
-          "protocol": "https",
-          "host": [
-            "student-auth-production",
-            "up",
-            "railway",
-            "app"
-          ],
-          "path": [
-            "login"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Refresh Token",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/x-www-form-urlencoded"
-          }
-        ],
-        "body": {
-          "mode": "urlencoded",
-          "urlencoded": [
-            {
-              "key": "refresh_token",
-              "value": "XYZ"
-            }
-          ]
-        },
-        "url": {
-          "raw": "https://student-auth-production.up.railway.app/refresh",
-          "protocol": "https",
-          "host": [
-            "student-auth-production",
-            "up",
-            "railway",
-            "app"
-          ],
-          "path": [
-            "refresh"
-          ]
-        }
-      }
-    }
-  ]
+	"info": {
+		"_postman_id": "0630560f-5916-4b62-b859-3254a8b17149",
+		"name": "Student Auth API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24141573",
+		"_collection_link": "https://pplo77.postman.co/workspace/1b1552b0-b685-4696-ba7d-2157abc88f8f/collection/24141573-0630560f-5916-4b62-b859-3254a8b17149?action=share&source=collection_link&creator=24141573"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Ahmed Ali\",\n  \"phone\": \"01111111111\",\n  \"email\": \"pplodev1@gmail.com\",\n  \"parent_phone\": \"01222222222\",\n  \"city\": \"Cairo\",\n  \"grade\": \"10\",\n  \"lang\": \"arabic\",\n  \"password\": \"12345678\",\n  \"confirm_password\": \"12345678\"\n}"
+				},
+				"url": {
+					"raw": "https://student-auth-production.up.railway.app/register",
+					"protocol": "https",
+					"host": [
+						"student-auth-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send OTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "pplodev1@gmail.com"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://easybio-drabdelrahman.com/otp-system/send_otp.php",
+					"protocol": "https",
+					"host": [
+						"easybio-drabdelrahman",
+						"com"
+					],
+					"path": [
+						"otp-system",
+						"send_otp.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify OTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "pplodev1@gmail.com"
+						},
+						{
+							"key": "otp",
+							"value": "123456"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://easybio-drabdelrahman.com/otp-system/verify-otp.php",
+					"protocol": "https",
+					"host": [
+						"easybio-drabdelrahman",
+						"com"
+					],
+					"path": [
+						"otp-system",
+						"verify-otp.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Verification",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "pplodev1@gmail.com"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://easybio-drabdelrahman.com/otp-system/status.php",
+					"protocol": "https",
+					"host": [
+						"easybio-drabdelrahman",
+						"com"
+					],
+					"path": [
+						"otp-system",
+						"status.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"identifier\": \"pplodev1@gmail.com\",\n  \"password\": \"12345678\"\n}"
+				},
+				"url": {
+					"raw": "https://student-auth-production.up.railway.app/login",
+					"protocol": "https",
+					"host": [
+						"student-auth-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "refresh_token",
+							"value": "XYZ"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://student-auth-production.up.railway.app/refresh",
+					"protocol": "https",
+					"host": [
+						"student-auth-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile Get",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzU0NzcxODY4fQ.K9KrXB7Nqzjy-_M0exZYnfC3czOgrxSqwL6-aRAkIy8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://student-auth-production.up.railway.app/student/profile",
+					"protocol": "https",
+					"host": [
+						"student-auth-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"student",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile Edit",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer ",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://student-auth-production.up.railway.app/student/profile/edit?phone=0123456789",
+					"protocol": "https",
+					"host": [
+						"student-auth-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"student",
+						"profile",
+						"edit"
+					],
+					"query": [
+						{
+							"key": "phone",
+							"value": "0123456789"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }
