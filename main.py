@@ -129,38 +129,41 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
 # -------------------------
 @app.post("/login", response_model=TokenResponse)
 def login(data: LoginRequest, db: Session = Depends(get_db)):
-    # find by phone, email, or student_code
     student = db.query(Student).filter(
         (Student.phone == data.identifier) |
         (Student.email == data.identifier) |
         (Student.student_code == data.identifier)
     ).first()
 
-    if not student or not verify_password(data.password, student.password):
+    if not student:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    # Check email verified via OTP service (if email present)
+    try:
+        if not verify_password(data.password, student.password):
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+    except Exception as e:
+        print("Password verification failed:", e)
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+    # تحقق من أن الإيميل مُوثق (إذا فيه إيميل)
     if student.email:
         try:
             resp = requests.post(OTP_STATUS_URL, data={"email": student.email}, timeout=5)
-            # ensure JSON parseable
-            try:
-                status_json = resp.json()
-            except ValueError:
-                raise HTTPException(status_code=500, detail="OTP service returned invalid response")
+            resp.raise_for_status()  # يرمي استثناء لو الحالة مش 200
+            status_json = resp.json()
             if not status_json.get("verified", False):
                 raise HTTPException(status_code=403, detail="Email not verified")
         except HTTPException:
-            # re-raise OTP related HTTPExceptions
-            raise
-        except Exception:
+            raise  # إعادة رفع الخطأ للعميل
+        except Exception as e:
+            print("OTP status check failed:", e)
             raise HTTPException(status_code=500, detail="Failed to verify email")
 
-    # issue tokens
     access_token = create_access_token(student.id)
     refresh_token = create_refresh_token(student.id)
 
     return {"access_token": access_token, "refresh_token": refresh_token}
+
 
 # -------------------------
 # Refresh endpoint
