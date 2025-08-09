@@ -290,13 +290,14 @@ def edit_profile(
             "name": current_student.name,
             "email": current_student.email,
             "phone": current_student.phone,
-            "username": current_student.username,
+            "username": getattr(current_student, "username", None),
             "parent_phone": current_student.parent_phone,
             "city": current_student.city,
             "lang": current_student.lang,
             "grade": current_student.grade,
         }
     }
+
 # -------------------------
 # Health / debug route
 # -------------------------
