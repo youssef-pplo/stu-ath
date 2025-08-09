@@ -1,24 +1,24 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
 from database import SessionLocal, engine, Base
 from models import Student
 from schemas import RegisterRequest, LoginRequest, TokenResponse
-from utils import create_access_token, create_refresh_token, verify_password
+from utils import create_access_token, create_refresh_token, verify_password, decode_access_token
 import requests
 from pydantic import BaseModel
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
-
 app = FastAPI()
 
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*", "http://localhost:5173"],  # Added localhost:5173
+    allow_origins=["*", "http://localhost:5173"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -93,3 +93,44 @@ def refresh_token(data: RefreshRequest):
         "access_token": create_access_token(1),
         "refresh_token": create_refresh_token(1)
     }
+
+# OAuth2 for JWT token extraction
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+# Dependency: get current student
+def get_current_student(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    payload = decode_access_token(token)
+    if payload is None:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    student = db.query(Student).filter(Student.id == payload.get("sub")).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    return student
+
+# Schema for profile response
+class StudentProfileResponse(BaseModel):
+    student_code: str
+    name: str
+    phone_number: str
+    email: str
+    username: str
+    parent_number: str
+    city: str
+    lang: str
+    grade: str
+    password: str
+
+@app.get("/profile", response_model=StudentProfileResponse)
+def get_profile(current_student: Student = Depends(get_current_student)):
+    return StudentProfileResponse(
+        student_code=current_student.student_code,
+        name=current_student.name,
+        phone_number=current_student.phone,
+        email=current_student.email,
+        username=current_student.username,
+        parent_number=current_student.parent_number,
+        city=current_student.city,
+        lang=current_student.lang,
+        grade=current_student.grade,  # replaced year_of_study with grade
+        password="********"
+    )
