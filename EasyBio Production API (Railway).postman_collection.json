@@ -1,0 +1,1155 @@
+{
+	"info": {
+		"_postman_id": "0e6ff505-174b-4624-aec8-a5415ed2ba03",
+		"name": "EasyBio Production API (Railway)",
+		"description": "A complete Postman collection for the EasyBio FastAPI application deployed on Railway. Includes all endpoints with detailed request and response examples.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24141573",
+		"_collection_link": "https://pplo77.postman.co/workspace/1b1552b0-b685-4696-ba7d-2157abc88f8f/collection/24141573-0e6ff505-174b-4624-aec8-a5415ed2ba03?action=share&source=collection_link&creator=24141573"
+	},
+	"item": [
+		{
+			"name": "User & Auth",
+			"item": [
+				{
+					"name": "Register Student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Ahmed Kamal\",\n    \"phone\": \"01098765432\",\n    \"email\": \"ahmed.kamal@example.com\",\n    \"parent_phone\": \"01123456789\",\n    \"city\": \"Alexandria\",\n    \"grade\": \"11\",\n    \"lang\": \"ar\",\n    \"password\": \"securePass123!\",\n    \"confirm_password\": \"securePass123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Ahmed Kamal\",\n    \"phone\": \"01098765432\",\n    \"email\": \"ahmed.kamal@example.com\",\n    \"parent_phone\": \"01123456789\",\n    \"city\": \"Alexandria\",\n    \"grade\": \"11\",\n    \"lang\": \"ar\",\n    \"password\": \"securePass123!\",\n    \"confirm_password\": \"securePass123!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Registered successfully. Please login.\"\n}"
+						},
+						{
+							"name": "Email or Phone Exists (400)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Ahmed Kamal\",\n    \"phone\": \"01098765432\",\n    \"email\": \"ahmed.kamal@example.com\",\n    \"parent_phone\": \"01123456789\",\n    \"city\": \"Alexandria\",\n    \"grade\": \"11\",\n    \"lang\": \"ar\",\n    \"password\": \"securePass123!\",\n    \"confirm_password\": \"securePass123!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Phone or Email already exists\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"access_token\", jsonData.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identifier\": \"ahmed.kamal@example.com\",\n    \"password\": \"securePass123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"identifier\": \"ahmed.kamal@example.com\",\n    \"password\": \"securePass123!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODlmNjI0ZjYyMjBlYjY4MmQxMzA5M2YiLCJleHAiOjE3MjM3NDMyNjV9.some_signature\",\n    \"token_type\": \"bearer\"\n}"
+						},
+						{
+							"name": "Invalid Credentials (401)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"identifier\": \"ahmed.kamal@example.com\",\n    \"password\": \"wrongpassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Invalid credentials\"\n}"
+						},
+						{
+							"name": "Max Devices Reached (403)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"identifier\": \"ahmed.kamal@example.com\",\n    \"password\": \"securePass123!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Maximum number of logged-in devices (3) reached.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/logout",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Successfully logged out\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Refresh Tokens",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/token/refresh",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"token",
+								"refresh"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/token/refresh",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"token",
+										"refresh"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"access_token\": \"a_new_access_token...\",\n    \"refresh_token\": \"a_new_refresh_token...\",\n    \"token_type\": \"bearer\"\n}"
+						},
+						{
+							"name": "Refresh Token Missing (401)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/token/refresh",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"token",
+										"refresh"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Refresh token missing\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Password Reset",
+			"item": [
+				{
+					"name": "1. Request Reset Code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmed.kamal@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forgot-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forgot-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"ahmed.kamal@example.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/forgot-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"forgot-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"If an account with this email exists, a reset code has been sent.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "2. Verify Reset Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"reset_token\", jsonData.reset_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmed.kamal@example.com\",\n    \"code\": \"12345\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/verify-reset-code",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"verify-reset-code"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"ahmed.kamal@example.com\",\n    \"code\": \"12345\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/verify-reset-code",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"verify-reset-code"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Code verified. Use this token to reset your password.\",\n    \"reset_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhaG1lZC5rYW1hbEBleGFtcGxlLmNvbSIsInNjb3BlIjoicmVzZXRfcGFzc3dvcmRfcGVybWlzc2lvbiIsImV4cCI6MTcyMzc0Mjk2N30.some_signature\"\n}"
+						},
+						{
+							"name": "Invalid Code (400)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"ahmed.kamal@example.com\",\n    \"code\": \"54321\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/verify-reset-code",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"verify-reset-code"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Invalid or expired reset code.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "3. Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"{{reset_token}}\",\n    \"new_password\": \"newSecurePass456!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reset-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"{{reset_token}}\",\n    \"new_password\": \"newSecurePass456!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/reset-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reset-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Password has been reset successfully. Please login with your new password.\"\n}"
+						},
+						{
+							"name": "Invalid Token (400)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"invalid-token\",\n    \"new_password\": \"newSecurePass456!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/reset-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"reset-password"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Invalid or expired permission token.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Student Profile",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/student/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"student",
+								"profile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/student/profile",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"student",
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"student_code\": \"J5K2L9M1\",\n    \"name\": \"Ahmed Kamal\",\n    \"phone\": \"01098765432\",\n    \"email\": \"ahmed.kamal@example.com\",\n    \"parent_phone\": \"01123456789\",\n    \"city\": \"Alexandria\",\n    \"grade\": \"11\",\n    \"password\": \"****\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Ahmed Kamal Updated\",\n    \"city\": \"Giza\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/student/profile/edit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"student",
+								"profile",
+								"edit"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Ahmed Kamal Updated\",\n    \"city\": \"Giza\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/student/profile/edit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"student",
+										"profile",
+										"edit"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Profile updated\",\n    \"student\": {\n        \"student_code\": \"J5K2L9M1\",\n        \"name\": \"Ahmed Kamal Updated\",\n        \"phone\": \"01098765432\",\n        \"email\": \"ahmed.kamal@example.com\",\n        \"parent_phone\": \"01123456789\",\n        \"city\": \"Giza\",\n        \"grade\": \"11\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Receipts",
+			"item": [
+				{
+					"name": "Add Receipt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"student_code\": \"J5K2L9M1\",\n    \"receipt_type\": \"package_purchase\",\n    \"item_id\": \"BIO_YEAR_3_FINAL\",\n    \"amount\": 300,\n    \"description\": \"3rd Year Biology Final Review\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/receipts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"receipts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"student_code\": \"J5K2L9M1\",\n    \"receipt_type\": \"package_purchase\",\n    \"item_id\": \"BIO_YEAR_3_FINAL\",\n    \"amount\": 300,\n    \"description\": \"3rd Year Biology Final Review\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/receipts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"receipts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"689f6d4e5f6a7b8c9d0e1f2a\",\n    \"student_id\": \"689f6c3d4e5f6a7b8c9d0e1f\",\n    \"student_code\": \"J5K2L9M1\",\n    \"receipt_type\": \"package_purchase\",\n    \"item_id\": \"BIO_YEAR_3_FINAL\",\n    \"amount\": 300.0,\n    \"description\": \"3rd Year Biology Final Review\",\n    \"created_at\": \"2025-08-15T10:00:00Z\"\n}"
+						},
+						{
+							"name": "Student Not Found (404)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"student_code\": \"INVALID_CODE\",\n    \"receipt_type\": \"package_purchase\",\n    \"item_id\": \"BIO_YEAR_3_FINAL\",\n    \"amount\": 300,\n    \"description\": \"3rd Year Biology Final Review\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/receipts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"receipts"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Student with code 'INVALID_CODE' not found.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Receipts for Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/receipts/J5K2L9M1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"receipts",
+								"J5K2L9M1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/receipts/J5K2L9M1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"receipts",
+										"J5K2L9M1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"689f6d4e5f6a7b8c9d0e1f2a\",\n        \"student_id\": \"689f6c3d4e5f6a7b8c9d0e1f\",\n        \"student_code\": \"J5K2L9M1\",\n        \"receipt_type\": \"package_purchase\",\n        \"item_id\": \"BIO_YEAR_3_FINAL\",\n        \"amount\": 300.0,\n        \"description\": \"3rd Year Biology Final Review\",\n        \"created_at\": \"2025-08-15T10:00:00Z\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Educational Content",
+			"item": [
+				{
+					"name": "Get Homepage Chapters",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/homepage/3/term2/arabic/biology",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"homepage",
+								"3",
+								"term2",
+								"arabic",
+								"biology"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "3rd Year, Term 2, Arabic (Success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/homepage/3/term2/arabic/biology",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"homepage",
+										"3",
+										"term2",
+										"arabic",
+										"biology"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 321,\n        \"image\": \"https://via.placeholder.com/200\",\n        \"title\": \"الفصل الثالث: التكاثر\",\n        \"price\": \"300 جنية\",\n        \"variant\": \"chapter\"\n    },\n    {\n        \"id\": 322,\n        \"image\": \"https://via.placeholder.com/200\",\n        \"title\": \"الفصل الرابع: المناعة\",\n        \"price\": \"320 جنية\",\n        \"variant\": \"chapter\"\n    }\n]"
+						},
+						{
+							"name": "Content Not Found (Empty Array)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/homepage/2/term1/english/chemistry",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"homepage",
+										"2",
+										"term1",
+										"english",
+										"chemistry"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[]"
+						}
+					]
+				},
+				{
+					"name": "Get Chapter Lessons",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/chapters/321",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chapters",
+								"321"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/chapters/321",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"chapters",
+										"321"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 32101,\n        \"image\": \"https://via.placeholder.com/200\",\n        \"title\": \"طرق التكاثر\",\n        \"price\": \"150 جنية\",\n        \"isFree\": false\n    }\n]"
+						},
+						{
+							"name": "Not Found (404)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/chapters/999",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"chapters",
+										"999"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Chapter not found or contains no lessons.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Lesson Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/lessons/32101",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lessons",
+								"32101"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (200)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/lessons/32101",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lessons",
+										"32101"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": 32101,\n    \"image\": \"https://via.placeholder.com/200\",\n    \"title\": \"طرق التكاثر\",\n    \"subject\": \"ثالثة ثانوي - ترم ثاني\",\n    \"price\": \"150 جنية\",\n    \"duration\": \"3.5 ساعات\",\n    \"exams\": \"2 امتحان\",\n    \"questions\": \"100 سؤال\",\n    \"isFree\": false\n}"
+						},
+						{
+							"name": "Not Found (404)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/lessons/99999",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lessons",
+										"99999"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Lesson not found.\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://web-production-8b5ee.up.railway.app"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "reset_token",
+			"value": ""
+		}
+	]
+}
